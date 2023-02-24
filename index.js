@@ -120,11 +120,12 @@ const promptIntern = (team) =>
   });
 
 
-// Writing into HTML start by prompting the manager information
+// Writing into HTML prompting the manager information
 const myTeam = async () => {
   let team = [];
+  // prompting the manager information
   team = await promptManager(team);
-  //selectOption=await promptOptions();
+//   prompting options
   let selectOption={}
   
   while (selectOption.theme!='Finish building the team') {
@@ -134,7 +135,7 @@ const myTeam = async () => {
         break;
       case 'Add an intern ':
         team = await promptIntern(team)
-        console.log(team)
+        
         break;
       
     }
