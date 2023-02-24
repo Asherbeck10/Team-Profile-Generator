@@ -13,6 +13,8 @@ const render = require("./src/page-template.js");
 
 // Code to gather information about the development team members.
 
+//Manager information 
+
 const promptManager = (team) =>
   inquirer.prompt([
     {
@@ -40,6 +42,8 @@ const promptManager = (team) =>
     return team;
   });
 
+//Engineer information
+
 const promptEngineer = (team) =>
   inquirer.prompt([
     {
@@ -66,6 +70,9 @@ const promptEngineer = (team) =>
     team.push(new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.github))
     return team;
   });
+
+  //Intern information
+
 const promptIntern = (team) =>
   inquirer.prompt([
     {
@@ -89,19 +96,56 @@ const promptIntern = (team) =>
       message: 'What is the intern school name?',
     }
   ]).then((answers) => {
-    team.push(new Engineer(answers.internName, answers.internId, answers.internEmail, answers.school))
+    team.push(new Intern(answers.internName, answers.internId, answers.internEmail, answers.school))
     return team;
   });
   
+  
+  const promptOptions=()=>
+  inquirer.prompt([
+    {
+      type: 'list',
+      name: 'theme',
+      message: 'What do you want to do?',
+      choices: [
+        'Add an engineer',
+        'Add an intern ',
+        'Finish building the team'
+      ],
+    },
+   
+  ])
+  .then((options) => {
+    return options;
+  });
 
-// Start by prompting the manager information
+
+// Writing into HTML start by prompting the manager information
 const myTeam = async () => {
   let team = [];
   team = await promptManager(team);
-  team = await promptEngineer(team);
-  team = await promptIntern(team)
+  //selectOption=await promptOptions();
+  let selectOption={}
+  
+  while (selectOption.theme!='Finish building the team') {
+    switch (selectOption.theme) {
+      case 'Add an engineer':
+        team = await promptEngineer(team);
+        break;
+      case 'Add an intern ':
+        team = await promptIntern(team)
+        console.log(team)
+        break;
+      
+    }
+    selectOption=await promptOptions();
+  }
+  
+ 
   const htmlDoc = render(team);
   await fs.writeFile(outputPath, htmlDoc);
+  console.log("All Done");
+  
 }
 
 myTeam();
