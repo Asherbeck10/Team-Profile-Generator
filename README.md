@@ -62,7 +62,7 @@ npm run test
 ```
 * I used jest to render the tests.
 
-## credits
+## Credits
 * [node](https://nodejs.org/en/)
 * [inquirer](https://www.npmjs.com/package/inquirer)
 * [jest](https://jestjs.io/)
